@@ -1,0 +1,11 @@
+{
+  "name": "@qr-menu/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "dist/client.js",
+  "types": "dist/client.d.ts",
+  "scripts": { "prisma": "prisma", "build": "prisma generate && tsc -p tsconfig.json", "seed": "tsx prisma/seed.ts" },
+  "dependencies": { "@prisma/client": "^6.1.0", "dotenv": "^16.4.7" },
+  "devDependencies": { "@types/node": "^22.10.5", "prisma": "^6.1.0", "tsx": "^4.19.2", "argon2": "^0.41.1", "typescript": "^5.7.2" }
+}

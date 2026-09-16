@@ -1,0 +1,17 @@
+{
+  "name": "qr-menu-platform",
+  "private": true,
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm db:generate && pnpm --filter @qr-menu/database build && pnpm --filter @qr-menu/types build && pnpm --parallel --filter @qr-menu/web --filter @qr-menu/api dev",
+    "build": "pnpm -r build",
+    "lint": "pnpm -r lint",
+    "test": "pnpm -r test",
+    "db:generate": "pnpm --filter @qr-menu/database prisma generate",
+    "db:migrate": "pnpm --filter @qr-menu/database prisma migrate dev",
+    "db:seed": "pnpm --filter @qr-menu/database prisma db seed"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.2"
+  }
+}

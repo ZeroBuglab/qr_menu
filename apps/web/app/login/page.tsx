@@ -1,0 +1,13 @@
+"use client";
+
+import { FormEvent, useState } from "react";
+import { ArrowRight, Coffee, LockKeyhole, Mail } from "lucide-react";
+
+const getApiBase = () => process.env.NEXT_PUBLIC_API_URL || (typeof window !== "undefined" && window.location.port === "3000" ? `http://${window.location.hostname}:4000` : "");
+const demoPassword = "replace-with-a-long-random-local-password";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("admin@demo.local"); const [password, setPassword] = useState(""); const [error, setError] = useState(""); const [loading, setLoading] = useState(false);
+  async function submit(event: FormEvent) { event.preventDefault(); setLoading(true); setError(""); try { const response = await fetch(`${getApiBase()}/api/v1/auth/login`, { method: "POST", headers: { "Content-Type": "application/json" }, credentials: "include", body: JSON.stringify({ email, password }) }); if (!response.ok) throw new Error("Проверьте email и пароль"); window.location.href = "/admin"; } catch (reason) { setError(reason instanceof Error ? reason.message : "Не удалось войти"); } finally { setLoading(false); } }
+  return <main className="login-shell"><div className="login-aside"><a className="brand" href="/"><span className="brand-mark"><Coffee size={17} /></span>KÖR</a><div><p className="section-kicker">RESTAURANT OPERATING SYSTEM</p><h1>Спокойствие<br /><em>в каждом заказе.</em></h1><p>Единое пространство для меню, кухни, команды и гостей.</p></div><small>© 2024 KÖR platform</small></div><div className="login-panel"><div className="login-card"><div className="login-heading"><p className="section-kicker">WELCOME BACK</p><h2>Войти в кабинет</h2><p>Управляйте Coffee House с одного экрана.</p></div><form onSubmit={submit}><label><span><Mail size={14} /> Email</span><input type="email" value={email} onChange={(event) => setEmail(event.target.value)} autoComplete="email" required /></label><label><span><LockKeyhole size={14} /> Пароль</span><input type="password" value={password} onChange={(event) => setPassword(event.target.value)} autoComplete="current-password" minLength={8} required /></label>{error && <div className="login-error">{error}</div>}<button className="login-button" disabled={loading}>{loading ? "Входим…" : "Войти"} <ArrowRight size={16} /></button></form><div className="demo-credentials"><strong>Локальный вход</strong><span>Админ: <b>admin@demo.local</b></span><span>Кухня: <b>kitchen@demo.local</b></span><span>Пароль: <b>{demoPassword}</b></span><small>Эти данные работают только в локальной демо-базе.</small></div><div className="login-note">Доступ только для сотрудников ресторана.<br />Сессия защищена HttpOnly cookie.</div></div></div></main>;
+}
